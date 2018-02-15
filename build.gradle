@@ -40,7 +40,6 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
 
     compile "org.apache.beam:beam-sdks-java-core:$beam_version"
     compile "org.apache.beam:beam-runners-direct-java:$beam_version"
