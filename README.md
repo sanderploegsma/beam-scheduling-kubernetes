@@ -1,6 +1,6 @@
 # Scheduled Apache Beam jobs using Kubernetes Cronjobs
 
-![](https://img.shields.io/docker/automated/sanderp/beam-scheduling-kubernetes.svg)
+[![](https://img.shields.io/docker/automated/sanderp/beam-scheduling-kubernetes.svg)](https://hub.docker.com/r/sanderp/beam-scheduling-kubernetes/)
 
 ## Prerequisites
 
