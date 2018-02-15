@@ -4,9 +4,9 @@
 
 ## Prerequisites
 
-- Docker
-- A Kubernetes cluster version >= 1.8
-- Java (optional, only needed to run locally)
+- Kubernetes cluster version >= 1.8
+- Docker (optional, only needed when building your own image)
+- Java (optional, only needed to run the application on your own machine)
 
 ## Setting up
 Deploy the Kubernetes Cronjob using
