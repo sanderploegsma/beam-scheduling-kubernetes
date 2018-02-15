@@ -1,11 +1,13 @@
 # Builder container
-FROM gradle:jdk8-alpine AS builder
+FROM openjdk:8-jdk-alpine AS builder
 
 WORKDIR /app
-ADD build.gradle /app/
+ADD gradlew build.gradle /app/
+ADD gradle /app/gradle
 ADD src /app/src
+
 USER root
-RUN gradle build -w --no-daemon --console plain
+RUN ./gradlew build -w --no-daemon --console plain
 
 # Production container
 # Note: Beam/Dataflow does not run well on alpine
