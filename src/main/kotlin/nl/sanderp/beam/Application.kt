@@ -1,15 +1,12 @@
 package nl.sanderp.beam
 
-import org.apache.beam.sdk.Pipeline
-import org.apache.beam.sdk.options.PipelineOptionsFactory
-import org.apache.beam.sdk.transforms.Count
-import org.apache.beam.sdk.transforms.Create
-import org.apache.beam.sdk.transforms.DoFn
-import org.apache.beam.sdk.transforms.ParDo
+import com.typesafe.config.ConfigFactory
+import nl.sanderp.beam.config.ResourceFactory
+import nl.sanderp.beam.config.parse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-val log: Logger = LoggerFactory.getLogger("Application")
+private val log: Logger = LoggerFactory.getLogger("Application")
 
 /**
  * Application entrypoint
@@ -17,19 +14,9 @@ val log: Logger = LoggerFactory.getLogger("Application")
 fun main(args: Array<String>) {
     log.info("Starting Beam application")
 
-    val pipeline = Pipeline.create(PipelineOptionsFactory.fromArgs(*args).create())
+    val settings = ConfigFactory.load().parse()
+    val resourceFactory = ResourceFactory(settings)
 
-    pipeline.apply("Read input data", Create.of("Hello", "World"))
-            .apply("Count words", Count.globally())
-            .apply("Output", ParDo.of(object : DoFn<Long, Void>() {
-                @ProcessElement
-                fun processElement(context: ProcessContext) {
-                    log.info("Count: ${context.element()}")
-                }
-            }))
-
-    // make sure to wait until the pipeline completes
-    pipeline.run()
-            .waitUntilFinish()
-
+    val job = Job(resourceFactory)
+    job.run()
 }
