@@ -7,7 +7,7 @@ import org.apache.beam.sdk.transforms.DoFn
 
 class LyricsEnricher(private val resourceFactory: ResourceFactory) : DoFn<Song, Song>() {
 
-    lateinit private var dao: LyricsDao
+    private lateinit var dao: LyricsDao
 
     @Setup
     fun setup() {
@@ -17,8 +17,8 @@ class LyricsEnricher(private val resourceFactory: ResourceFactory) : DoFn<Song, 
     @ProcessElement
     fun processElement(context: ProcessContext) {
         val song = context.element()
-        context.output(if (song.lyrics.isNullOrEmpty()) withLyrics(song) else song)
+        context.output(song.withLyrics())
     }
 
-    private fun withLyrics(song: Song) = song.copy(lyrics = dao.findLyrics(title = song.title, artist = song.artist))
+    private fun Song.withLyrics() = if (!lyrics.isNullOrEmpty()) this else copy(lyrics = dao.findLyrics(title = title, artist = artist))
 }
